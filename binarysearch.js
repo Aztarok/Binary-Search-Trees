@@ -10,14 +10,21 @@ class Tree {
     constructor(arr) {
         this.root = this.buildTree(arr);
     }
-
+    root = this.root;
     buildTree(arr) {
         arr = [...new Set(this.sortArray(arr))];
         let node = this.makeTree(arr, 0, arr.length-1);
-        let mid = parseInt(arr.length / 2);
-        return this.prettyPrint(node);
+        return node;
     }
-
+    insert(num, root = this.root) {
+        if(root === null) {
+            return new Node(num);
+        }
+        root.value < num
+            ? (root.right = this.insert(num, root.right))
+            : (root.left = this.insert(num, root.left));
+            return root;
+    }
     prettyPrint = (node, prefix = "", isLeft = true) =>  {
         if (node === null) {
             return;
@@ -30,8 +37,6 @@ class Tree {
             this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
         }
     }
-    
-
     makeTree(arr, start, end) {
         if (start > end) {
             return null;
@@ -43,7 +48,6 @@ class Tree {
         node.right = this.makeTree(arr, mid + 1, end);
         return node;
     }
-
     sortArray(arr) {
         if (arr.length <= 1) {
             return arr;
@@ -78,9 +82,15 @@ class Tree {
     }
 }
 
+
+
 let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 // let array = [1, 2, 3, 4, 5, 6, 7];
-let tree = new Tree(array);
-
-console.log(tree);
+let t1 = new Tree(array);
+let root = t1.root;
+let newNum = 6;
+let oldNum = 23;
+console.log(t1.prettyPrint(root));
+console.log(t1.insert(newNum));
+console.log(root); 
