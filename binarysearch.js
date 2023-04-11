@@ -56,6 +56,40 @@ class Tree {
         this.prettyPrint(this.root);
         return smallest;
     }
+    find(num, root = this.root) {
+        if(root === null) {
+            return false;
+        }
+        if (root.value === num) {
+            return root;
+        }
+        if (root.value > num) {
+            return this.find(num, root.left);
+        } else if (root.value < num) {
+            return this.find(num, root.right);
+        }
+        return root;
+    }
+    levelOrder(root = this.root) {
+        const queue = [];
+        const result = [];
+
+        if (root === null) {
+            return;
+        }
+        queue.push(root);
+        while (queue.length > 0) {
+            let current = queue.shift(root);
+            result.push(current.value);
+            if (current.left !== null) {
+                queue.push(current.left);
+            }
+            if (current.right !== null) {
+                queue.push(current.right);
+            }
+        }
+        return result;
+    }
     prettyPrint = (node, prefix = "", isLeft = true) =>  {
         if (node === null) {
             return;
@@ -121,9 +155,11 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let t1 = new Tree(array);
 let root = t1.root;
 
-console.log(root.left);
 let newNum = 6;
-let oldNum = 23;
-t1.insert(newNum);
-t1.delete(oldNum);
+let oldNum = 67;
+// t1.insert(newNum);
+// t1.delete(oldNum);
+
 root = t1.root;
+console.log(t1.find(oldNum));
+console.log(t1.levelOrder());
