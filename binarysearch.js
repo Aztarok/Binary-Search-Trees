@@ -151,7 +151,29 @@ class Tree {
         return this.postOrderValues;
     }
     height(root = this.root) {
-        
+        if (root === null) {
+            return -1;
+        } else {
+            let left = this.height(root.left);
+            let right = this.height(root.right);
+
+            return Math.max(left, right) + 1;
+        }
+    }
+    depth(node, edges = 0, root = this.root) {
+        if (root === null) {
+            return;
+        }
+
+        if (root.value === node) {
+            return edges;
+        }
+
+        if (root.value > node) {
+            return this.depth(node, (edges + 1), root.left);
+        } else {
+            return this.depth(node, (edges + 1), root.right);
+        }
     }
     prettyPrint = (node, prefix = "", isLeft = true) =>  {
         if (node === null) {
@@ -226,6 +248,14 @@ let oldNum = 67;
 root = t1.root;
 // console.log(t1.find(oldNum));
 // console.log(t1.levelOrder());
-console.log(t1.inOrder());
-console.log(t1.preOrder());
-console.log(t1.postOrder());
+// console.log(t1.inOrder());
+// console.log(t1.preOrder());
+// console.log(t1.postOrder());
+console.log(root.right.right.right);
+console.log(t1.height(root.right.right.right));
+console.log(root.right);
+console.log(t1.height(root.right));
+console.log(t1.depth(oldNum));
+console.log(t1.depth(324));
+console.log(t1.depth(7));
+console.log(t1.depth(8));
