@@ -1,8 +1,8 @@
 class Node {
     constructor(value) {
         this.value = value;
-        this.left = [];
-        this.right = [];
+        this.left = null;
+        this.right = null;
     }
 }
 
@@ -23,7 +23,38 @@ class Tree {
         root.value < num
             ? (root.right = this.insert(num, root.right))
             : (root.left = this.insert(num, root.left));
+        this.prettyPrint(this.root);
+        return root;
+    }
+    delete(num, root = this.root) {
+        if (root === null) {
             return root;
+        }
+        if (root.value > num) {
+            root.left = this.delete(num, root.left);
+        } else if (root.value < num) {
+            root.right = this.delete(num, root.right);
+        } else {
+            if (root.left === null) {
+                return root.right;
+            } else if (root.right === null) {
+                return root.left;
+            }
+            root.value = this.smallestNode(root);
+            root.right = this.delete(root.right, root.value);
+        }
+
+        this.prettyPrint(this.root);
+        return root;
+    }
+    smallestNode(root) {
+        let smallest = root.value;
+        while (root !== null) {
+            smallest = root.value;
+            root = root.left;
+        }
+        this.prettyPrint(this.root);
+        return smallest;
     }
     prettyPrint = (node, prefix = "", isLeft = true) =>  {
         if (node === null) {
@@ -89,8 +120,10 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 2, 3, 4, 5, 6, 7];
 let t1 = new Tree(array);
 let root = t1.root;
+
+console.log(root.left);
 let newNum = 6;
 let oldNum = 23;
-console.log(t1.prettyPrint(root));
-console.log(t1.insert(newNum));
-console.log(root); 
+t1.insert(newNum);
+t1.delete(oldNum);
+root = t1.root;
