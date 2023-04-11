@@ -9,6 +9,9 @@ class Node {
 class Tree {
     constructor(arr) {
         this.root = this.buildTree(arr);
+        this.inOrderValues = [];
+        this.preOrderValues = [];
+        this.postOrderValues = [];
     }
     root = this.root;
     buildTree(arr) {
@@ -90,6 +93,66 @@ class Tree {
         }
         return result;
     }
+    inOrder(root = this.root) {
+        if (root === null) {
+            return;
+        }
+        
+        if (root.left !== null) {
+            this.inOrder(root.left);
+        }
+
+        if (root.value !== undefined) {
+            this.inOrderValues.push(root.value);
+        }
+
+        if (root.right !== null) {
+            this.inOrder(root.right);
+        }
+
+        return this.inOrderValues;
+    }
+    preOrder(root = this.root) {
+        if (root === null) {
+            return;
+        }
+
+        if (root.value !== undefined) {
+            this.preOrderValues.push(root.value);
+        }
+        
+        if (root.left !== null) {
+            this.preOrder(root.left);
+        }
+
+        if (root.right !== null) {
+            this.preOrder(root.right);
+        }
+
+        return this.preOrderValues;
+    }
+    postOrder(root = this.root) {
+        if (root === null) {
+            return;
+        }
+        
+        if (root.left !== null) {
+            this.postOrder(root.left);
+        }
+
+        if (root.right !== null) {
+            this.postOrder(root.right);
+        }
+
+        if (root.value !== undefined) {
+            this.postOrderValues.push(root.value);
+        }
+
+        return this.postOrderValues;
+    }
+    height(root = this.root) {
+        
+    }
     prettyPrint = (node, prefix = "", isLeft = true) =>  {
         if (node === null) {
             return;
@@ -161,5 +224,8 @@ let oldNum = 67;
 // t1.delete(oldNum);
 
 root = t1.root;
-console.log(t1.find(oldNum));
-console.log(t1.levelOrder());
+// console.log(t1.find(oldNum));
+// console.log(t1.levelOrder());
+console.log(t1.inOrder());
+console.log(t1.preOrder());
+console.log(t1.postOrder());
