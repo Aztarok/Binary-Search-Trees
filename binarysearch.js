@@ -26,7 +26,6 @@ class Tree {
         root.value < num
             ? (root.right = this.insert(num, root.right))
             : (root.left = this.insert(num, root.left));
-        this.prettyPrint(this.root);
         return root;
     }
     delete(num, root = this.root) {
@@ -213,7 +212,8 @@ class Tree {
         let treeFix = this.levelOrder();
         treeFix.sort((a, b) => a - b);
         this.root = this.buildTree(treeFix);
-        this.prettyPrint(this.root);
+        
+        return this.isBalanced();
     }
     prettyPrint = (node, prefix = "", isLeft = true) =>  {
         if (node === null) {
@@ -274,24 +274,24 @@ class Tree {
 
 
 
-let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 // let array = [1, 2, 3, 4, 5, 6, 7];
-let t1 = new Tree(array);
-let root = t1.root;
+// let t1 = new Tree(array);
+// let root = t1.root;
 
-let newNum = 6;
-let oldNum = 5;
-console.log(t1.isBalanced());
-t1.delete(1);
-t1.delete(8);
-t1.insert(10000);
-t1.delete(4);
-console.log(t1.isBalanced());
-t1.rebalance();
-console.log(t1.isBalanced());
+// let newNum = 6;
+// let oldNum = 5;
+// console.log(t1.isBalanced());
+// t1.delete(1);
+// t1.delete(8);
+// t1.insert(10000);
+// t1.delete(4);
+// console.log(t1.isBalanced());
+// t1.rebalance();
+// console.log(t1.isBalanced());
 
-root = t1.root;
+// root = t1.root;
 // console.log(t1.find(oldNum));
 // console.log(t1.levelOrder());
 // console.log(t1.inOrder());
@@ -305,3 +305,35 @@ root = t1.root;
 // console.log(t1.depth(324));
 // console.log(t1.depth(7));
 // console.log(t1.depth(8));
+
+// 1. Create a bst from random numbers
+let array = [1, 9, 69, 420, 1098, 1444, 2386, 4, 21, 8218];
+let balancedTree = new Tree(array);
+let root = balancedTree.root;
+// 2. Confirm tree is balanced with isBalanced()
+balancedTree.prettyPrint(root);
+console.log(balancedTree.isBalanced());
+// 3. Print out elements in level, pre, post, and in order
+console.log(balancedTree.levelOrder());
+console.log(balancedTree.preOrder())
+console.log(balancedTree.postOrder())
+console.log(balancedTree.inOrder())
+// 4. Unbalance tree
+console.log(balancedTree.find(69));
+balancedTree.insert(101);
+balancedTree.insert(898);
+balancedTree.insert(999);
+balancedTree.prettyPrint(root);
+// 5. Confirm tree is unbalanced with isBalanced()
+console.log(balancedTree.isBalanced());
+// 6. Balance tree with rebalance
+console.log(balancedTree.rebalance());
+root = balancedTree.root;
+balancedTree.prettyPrint(root);
+// 7. Confirm tree is balanced with isBalanced()
+console.log(balancedTree.isBalanced());
+// 8. Print out elements in level, pre, post, and in order
+console.log(balancedTree.levelOrder());
+console.log(balancedTree.preOrder())
+console.log(balancedTree.postOrder())
+console.log(balancedTree.inOrder())
