@@ -42,23 +42,42 @@ class Tree {
                 return root.right;
             } else if (root.right === null) {
                 return root.left;
+            } else {
+                const smallestNode = (root) => {
+                    let min = root.value;
+                    let newMin = root;
+                    while (newMin.left !== null) {
+                        min = root.left.value;
+                        newMin = root.left;
+                    }
+                    return min;
+                }
+
+                root.value = smallestNode(root.right);
+                root.right = this.delete(root.value, root.right);
+                // root.value = this.smallestNode(root);
+                // root.right = this.delete(root.right, root.value);
             }
-            root.value = this.smallestNode(root);
-            root.right = this.delete(root.right, root.value);
+            
         }
 
         this.prettyPrint(this.root);
         return root;
     }
-    smallestNode(root) {
-        let smallest = root.value;
-        while (root !== null) {
-            smallest = root.value;
-            root = root.left;
-        }
-        this.prettyPrint(this.root);
-        return smallest;
-    }
+    // smallestNode(root) {
+    //     let smallest = root.value;
+    //     while (root !== null) {
+    //         if (root === null) {
+    //             break;
+    //         } else {
+                
+    //         }
+    //         smallest = root;
+    //         root = root.left;
+    //     }
+    //     this.prettyPrint(this.root);
+    //     return smallest;
+    // }
     find(num, root = this.root) {
         if(root === null) {
             return false;
@@ -175,6 +194,27 @@ class Tree {
             return this.depth(node, (edges + 1), root.right);
         }
     }
+    isBalanced(root = this.root) {
+        if (root === null) {
+            return false;
+        }
+        let left = root.left;
+        let right = root.right;
+
+        if (Math.abs(this.height(left) - this.height(right)) > 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    rebalance(root = this.root) {
+        this.prettyPrint(root);
+
+        let treeFix = this.levelOrder();
+        treeFix.sort((a, b) => a - b);
+        this.root = this.buildTree(treeFix);
+        this.prettyPrint(this.root);
+    }
     prettyPrint = (node, prefix = "", isLeft = true) =>  {
         if (node === null) {
             return;
@@ -241,9 +281,15 @@ let t1 = new Tree(array);
 let root = t1.root;
 
 let newNum = 6;
-let oldNum = 67;
-// t1.insert(newNum);
-// t1.delete(oldNum);
+let oldNum = 5;
+console.log(t1.isBalanced());
+t1.delete(1);
+t1.delete(8);
+t1.insert(10000);
+t1.delete(4);
+console.log(t1.isBalanced());
+t1.rebalance();
+console.log(t1.isBalanced());
 
 root = t1.root;
 // console.log(t1.find(oldNum));
@@ -251,11 +297,11 @@ root = t1.root;
 // console.log(t1.inOrder());
 // console.log(t1.preOrder());
 // console.log(t1.postOrder());
-console.log(root.right.right.right);
-console.log(t1.height(root.right.right.right));
-console.log(root.right);
-console.log(t1.height(root.right));
-console.log(t1.depth(oldNum));
-console.log(t1.depth(324));
-console.log(t1.depth(7));
-console.log(t1.depth(8));
+// console.log(root.right.right.right);
+// console.log(t1.height(root.right.right.right));
+// console.log(root.right);
+// console.log(t1.height(root.right));
+// console.log(t1.depth(oldNum));
+// console.log(t1.depth(324));
+// console.log(t1.depth(7));
+// console.log(t1.depth(8));
